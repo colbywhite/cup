@@ -11,6 +11,7 @@
     "lint": "rw lint --fix"
   },
   "devDependencies": {
+    "@redwoodjs/cli-data-migrate": "6.3.2",
     "@redwoodjs/core": "6.3.2",
     "prettier-plugin-tailwindcss": "0.4.1"
   },

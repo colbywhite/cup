@@ -4287,6 +4287,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redwoodjs/cli-data-migrate@npm:6.3.2":
+  version: 6.3.2
+  resolution: "@redwoodjs/cli-data-migrate@npm:6.3.2"
+  dependencies:
+    "@redwoodjs/babel-config": 6.3.2
+    "@redwoodjs/project-config": 6.3.2
+    chalk: 4.1.2
+    dotenv-defaults: 5.0.2
+    execa: 5.1.1
+    fs-extra: 11.1.1
+    listr2: 6.6.1
+    terminal-link: 2.1.1
+    yargs: 17.7.2
+  bin:
+    up: dist/bin.js
+  checksum: ddf73f251fb1ee2d99c020ff1d5d2dabf19abda2a7a8667f2b2e94f78869650ea98b76ea71dc4bb645d656a6acff7648be801ef45e4887fc90a1bc8a9015e06e
+  languageName: node
+  linkType: hard
+
 "@redwoodjs/cli-helpers@npm:6.3.2":
   version: 6.3.2
   resolution: "@redwoodjs/cli-helpers@npm:6.3.2"
@@ -7864,14 +7883,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001541":
-  version: 1.0.30001547
-  resolution: "caniuse-lite@npm:1.0.30001547"
-  checksum: bd8ef400fdd6a76aa5a4bc490a5b9b8adffbff1657d36ee1516b4be30315f1a3cfaa51ab872a46d5e7db17424eaa335593cd27e640248b4df3897b113650a7d3
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001538":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001541":
   version: 1.0.30001553
   resolution: "caniuse-lite@npm:1.0.30001553"
   checksum: 75656429566b44f968e5575f2bc4a27052ed5bb49763069f6b6c3f64c5a2d4c561dc17342faee42ef42d004572fba7c214d5321d18d9283c95f3bf17e5498355
@@ -17989,6 +18001,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@redwoodjs/cli-data-migrate": 6.3.2
     "@redwoodjs/core": 6.3.2
     prettier-plugin-tailwindcss: 0.4.1
   languageName: unknown
