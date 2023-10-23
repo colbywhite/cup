@@ -1,12 +1,16 @@
 import { MetaTags } from '@redwoodjs/web'
 
-import { SplashPage } from 'src/components/SplashPage/SplashPage'
+import { useAuth } from 'src/auth'
 
 const HomePage = () => {
+  const { userMetadata } = useAuth()
+  if (!userMetadata) {
+    return null
+  }
   return (
     <>
       <MetaTags title="Home" description="Home page" />
-      <SplashPage hasGeneratedRoutes={false} allStandardRoutes={{}} />
+      <h1>Hello {userMetadata.fullName}</h1>
     </>
   )
 }
