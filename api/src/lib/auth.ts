@@ -2,6 +2,25 @@ import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
 import { logger } from 'src/lib/logger'
 
+type DecodedClerkToken = null | Partial<{
+  avatar: string
+  azp: string
+  email: string
+  exp: number
+  iat: number
+  id: string
+  iss: string
+  jti: string
+  name: string
+  nbf: number
+  sid: string
+  sub: string
+}>
+
+type CurrentUser = Required<
+  Pick<DecodedClerkToken, 'email' | 'name' | 'avatar' | 'id'>
+>
+
 /**
  * getCurrentUser returns the user information.
  * Once you're ready you can also return a collection of roles
@@ -14,22 +33,33 @@ import { logger } from 'src/lib/logger'
  *
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
-export const getCurrentUser = async (
-  decoded,
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  { token, type },
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  { event, context }
-) => {
+export const getCurrentUser = (decoded: DecodedClerkToken): CurrentUser => {
   if (!decoded) {
     logger.warn('Missing decoded user')
     return null
   }
-
-  const { id, ..._rest } = decoded
-
-  // Be careful to only return information that should be accessible on the web side.
-  return { id }
+  if (!decoded.email) {
+    logger.warn('Missing decoded email')
+    return null
+  }
+  if (!decoded.name) {
+    logger.warn('Missing decoded name')
+    return null
+  }
+  if (!decoded.avatar) {
+    logger.warn('Missing decoded avatar')
+    return null
+  }
+  if (!decoded.id) {
+    logger.warn('Missing decoded id')
+    return null
+  }
+  return {
+    id: decoded.id,
+    name: decoded.name,
+    email: decoded.email,
+    avatar: decoded.avatar,
+  }
 }
 
 /**
