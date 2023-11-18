@@ -8,11 +8,97 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+// model Circuit {
+//   id      String   @id @default(uuid())
+//   name    String
+//   seasons Season[]
+// }
+//
+// model Season {
+//   id        String    @id @default(uuid())
+//   circuit   Circuit   @relation(fields: [circuitId], references: [id])
+//   circuitId String
+//   round     Score[]
+//   sessions  Session[]
+// }
+//
+// model Session {
+//   startDate DateTime
+//   Season    Season   @relation(fields: [seasonId], references: [id])
+//   seasonId  String
+//
+//   @@unique([seasonId, startDate])
+// }
+//
+model Golfer {
+  email  String @id
+  name   String
+  avatar String
+
+  ghinNumber  Int
+  sex         Sex
+  association String
+
+  //   scores     Score[]
+  @@unique([ghinNumber])
 }
+
+//
+// model Score {
+//   id               String               @id @default(uuid())
+//   handicap         Decimal
+//   grossScore       Int
+//   differential     Decimal
+//   date             DateTime
+//   teeSet           TeeSetRating         @relation(fields: [courseId, teeSetId, teeSetGhinType], references: [courseId, teeSetId, ghinType])
+//   participant      Golfer               @relation(fields: [participantEmail], references: [email])
+//   season           Season               @relation(fields: [seasonId], references: [id])
+//   participantEmail String
+//   seasonId         String
+//   courseId         Int
+//   teeSetId         Int
+//   teeSetGhinType   GhinTeeSetRatingType
+// }
+//
+// model Course {
+//   id            Int            @id @unique
+//   name          String
+//   address       String
+//   teeSetRatings TeeSetRating[]
+// }
+//
+// enum GhinTeeSetRatingType {
+//   Total
+//   Back
+//   Front
+// }
+//
+// enum TeeSetRatingType {
+//   Eighteen
+//   Nine
+// }
+//
+enum Sex {
+  Male
+  Female
+}
+
+//
+// model TeeSetRating {
+//   type    TeeSetRatingType
+//   rating  Float
+//   slope   Int
+//   name    String
+//   gender  Sex
+//   yardage Int?
+//   par     Int?
+//
+//   ghinType GhinTeeSetRatingType
+//   teeSetId Int
+//   course   Course               @relation(fields: [courseId], references: [id])
+//   courseId Int
+//   Score    Score[]
+//
+//   @@unique([courseId, teeSetId, ghinType])
+//   @@index([type, gender])
+// }

@@ -1,5 +1,6 @@
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
+import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
 
 type DecodedClerkToken = null | Partial<{
@@ -19,7 +20,7 @@ type DecodedClerkToken = null | Partial<{
 
 type CurrentUser = Required<
   Pick<DecodedClerkToken, 'email' | 'name' | 'avatar' | 'id'>
->
+> & { roles: Roles }
 
 /**
  * getCurrentUser returns the user information.
@@ -33,7 +34,9 @@ type CurrentUser = Required<
  *
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
-export const getCurrentUser = (decoded: DecodedClerkToken): CurrentUser => {
+export const getCurrentUser = async (
+  decoded: DecodedClerkToken
+): Promise<CurrentUser> => {
   if (!decoded) {
     logger.warn('Missing decoded user')
     return null
@@ -54,11 +57,14 @@ export const getCurrentUser = (decoded: DecodedClerkToken): CurrentUser => {
     logger.warn('Missing decoded id')
     return null
   }
+  const golfer = await db.golfer.findUnique({ where: { email: decoded.email } })
+  const roles: Roles = golfer === null ? [] : ['golfer']
   return {
     id: decoded.id,
     name: decoded.name,
     email: decoded.email,
     avatar: decoded.avatar,
+    roles,
   }
 }
 
@@ -75,7 +81,9 @@ export const isAuthenticated = () => {
  * When checking role membership, roles can be a single value, a list, or none.
  * You can use Prisma enums too (if you're using them for roles), just import your enum type from `@prisma/client`
  */
-type AllowedRoles = string | string[] | undefined
+type AllowedRoles = 'golfer'
+
+type Roles = AllowedRoles[]
 
 /**
  * When checking role membership, roles can be a single value, a list, or none.
