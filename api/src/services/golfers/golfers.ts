@@ -1,11 +1,19 @@
 import { Prisma } from '@prisma/client'
 import type { MutationResolvers } from 'types/graphql'
 
+import type { RedwoodGraphQLContext } from '@redwoodjs/graphql-server'
+
+import type { getCurrentUser } from 'src/lib/auth'
 import { db } from 'src/lib/db'
 import { GhinClient } from 'src/lib/ghin-client'
 import { logger } from 'src/lib/logger'
 
-export const createGolfer: MutationResolvers['createGolfer'] = async (
+// TODO: figure out why RW isn't doing this automatically in WebStorm
+type Context = RedwoodGraphQLContext & {
+  currentUser: Awaited<ReturnType<typeof getCurrentUser>>
+}
+
+export const createGolfer: MutationResolvers<Context>['createGolfer'] = async (
   { input: { ghinNumber } },
   { context: { currentUser } }
 ) => {

@@ -15,9 +15,7 @@ const HomePage = () => {
   return (
     <>
       <MetaTags title="Home" description="Home page" />
-      <h1 className="font-bold text-2xl my-4">
-        Hello {currentUser.name}
-      </h1>
+      <h1 className="my-4 text-2xl font-bold">Hello {currentUser.name}</h1>
       <section>
         {isGolfer ? (
           <p>Join a tour</p>

@@ -8,97 +8,72 @@ generator client {
   binaryTargets = "native"
 }
 
-// model Circuit {
-//   id      String   @id @default(uuid())
-//   name    String
-//   seasons Season[]
-// }
-//
-// model Season {
-//   id        String    @id @default(uuid())
-//   circuit   Circuit   @relation(fields: [circuitId], references: [id])
-//   circuitId String
-//   round     Score[]
-//   sessions  Session[]
-// }
-//
-// model Session {
-//   startDate DateTime
-//   Season    Season   @relation(fields: [seasonId], references: [id])
-//   seasonId  String
-//
-//   @@unique([seasonId, startDate])
-// }
-//
 model Golfer {
   email  String @id
   name   String
   avatar String
 
-  ghinNumber  Int
+  ghinNumber  Int    @unique
   sex         Sex
   association String
 
-  //   scores     Score[]
-  @@unique([ghinNumber])
+  rounds              Round[]
+  commissionedLeagues League[]
+
+  seasons Season[]
 }
 
-//
-// model Score {
-//   id               String               @id @default(uuid())
-//   handicap         Decimal
-//   grossScore       Int
-//   differential     Decimal
-//   date             DateTime
-//   teeSet           TeeSetRating         @relation(fields: [courseId, teeSetId, teeSetGhinType], references: [courseId, teeSetId, ghinType])
-//   participant      Golfer               @relation(fields: [participantEmail], references: [email])
-//   season           Season               @relation(fields: [seasonId], references: [id])
-//   participantEmail String
-//   seasonId         String
-//   courseId         Int
-//   teeSetId         Int
-//   teeSetGhinType   GhinTeeSetRatingType
-// }
-//
-// model Course {
-//   id            Int            @id @unique
-//   name          String
-//   address       String
-//   teeSetRatings TeeSetRating[]
-// }
-//
-// enum GhinTeeSetRatingType {
-//   Total
-//   Back
-//   Front
-// }
-//
-// enum TeeSetRatingType {
-//   Eighteen
-//   Nine
-// }
-//
+model League {
+  id      String   @id @default(uuid())
+  name    String
+  seasons Season[]
+
+  commissioner      Golfer @relation(fields: [commissionerEmail], references: [email])
+  commissionerEmail String
+
+  @@index([commissionerEmail, id])
+  @@index([commissionerEmail])
+}
+
+model Season {
+  id   String @id @default(uuid())
+  name String
+
+  league       League    @relation(fields: [leagueId], references: [id])
+  leagueId     String
+  sessions     Session[]
+  participants Golfer[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  startDate DateTime
+  endDate   DateTime
+  season    Season   @relation(fields: [seasonId], references: [id])
+  seasonId  String
+  rounds    Round[]
+
+  @@unique([seasonId, startDate])
+}
+
+model Round {
+  id           Int      @id
+  date         DateTime
+  differential Decimal
+  grossScore   Int
+  teeSetRating Float
+  teeSetSlope  Int
+  courseName   String
+  teeSetName   String
+  gender       Sex
+
+  golfer      Golfer  @relation(fields: [golferEmail], references: [email])
+  session     Session @relation(fields: [sessionId], references: [id])
+  golferEmail String
+  sessionId   String
+}
+
 enum Sex {
   Male
   Female
 }
-
-//
-// model TeeSetRating {
-//   type    TeeSetRatingType
-//   rating  Float
-//   slope   Int
-//   name    String
-//   gender  Sex
-//   yardage Int?
-//   par     Int?
-//
-//   ghinType GhinTeeSetRatingType
-//   teeSetId Int
-//   course   Course               @relation(fields: [courseId], references: [id])
-//   courseId Int
-//   Score    Score[]
-//
-//   @@unique([courseId, teeSetId, ghinType])
-//   @@index([type, gender])
-// }

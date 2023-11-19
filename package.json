@@ -8,8 +8,9 @@
   },
   "scripts": {
     "start": "rw dev",
-    "build": "rw buildjjj",
-    "lint": "rw lint --fix"
+    "build": "rw build",
+    "lint": "rw lint --fix",
+    "types": "rw prisma generate types && rw g types"
   },
   "devDependencies": {
     "@redwoodjs/auth-clerk-setup": "6.3.2",
