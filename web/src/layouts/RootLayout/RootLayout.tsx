@@ -6,9 +6,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className="grid h-screen w-screen grid-cols-1 grid-rows-[4rem_1fr] gap-2">
       <NavBar />
-      <main className="flex flex-col items-center justify-center text-center">
-        {children}
-      </main>
+      {children}
     </div>
   )
 }

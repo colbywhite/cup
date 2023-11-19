@@ -1,3 +1,5 @@
+import { Golfer } from '@prisma/client'
+
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
@@ -18,9 +20,10 @@ type DecodedClerkToken = null | Partial<{
   sub: string
 }>
 
-type CurrentUser = Required<
-  Pick<DecodedClerkToken, 'email' | 'name' | 'avatar' | 'id'>
-> & { roles: Roles }
+type UnknownGolfer = Required<
+  Pick<DecodedClerkToken, 'email' | 'name' | 'avatar'>
+>
+type CurrentUser = (UnknownGolfer | Golfer) & { roles: Roles }
 
 /**
  * getCurrentUser returns the user information.
@@ -53,18 +56,18 @@ export const getCurrentUser = async (
     logger.warn('Missing decoded avatar')
     return null
   }
-  if (!decoded.id) {
-    logger.warn('Missing decoded id')
-    return null
-  }
   const golfer = await db.golfer.findUnique({ where: { email: decoded.email } })
-  const roles: Roles = golfer === null ? [] : ['golfer']
+  if (golfer === null) {
+    return {
+      name: decoded.name,
+      email: decoded.email,
+      avatar: decoded.avatar,
+      roles: [],
+    }
+  }
   return {
-    id: decoded.id,
-    name: decoded.name,
-    email: decoded.email,
-    avatar: decoded.avatar,
-    roles,
+    ...golfer,
+    roles: ['golfer'],
   }
 }
 

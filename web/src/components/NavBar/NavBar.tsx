@@ -1,7 +1,5 @@
-import type { SignOutCallback } from '@clerk/types'
-
 import type { CurrentUser } from '@redwoodjs/auth'
-import { Link, routes } from '@redwoodjs/router'
+import { Link, navigate, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
 
@@ -10,7 +8,7 @@ function UserMenu({
   logOut,
 }: {
   user: CurrentUser
-  logOut: SignOutCallback
+  logOut: () => Promise<void>
 }) {
   return (
     <div className="dropdown-end dropdown">
@@ -32,16 +30,17 @@ function UserMenu({
 
 function NavBar() {
   const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
+  const logOutAndRedirect = () => logOut().then(() => navigate(routes.home()))
   return (
     <header className="navbar bg-neutral text-neutral-content">
       <div className="flex-1">
         <Link to={routes.home()} className="btn btn-ghost text-xl normal-case">
-          Cross-City Cup
+          DIY Golf Tour
         </Link>
       </div>
       <div className="flex-none gap-2">
         {isAuthenticated && currentUser ? (
-          <UserMenu user={currentUser} logOut={logOut} />
+          <UserMenu user={currentUser} logOut={logOutAndRedirect} />
         ) : (
           <button className="btn btn-ghost btn-sm" onClick={() => logIn()}>
             Log in

@@ -3217,6 +3217,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "@hookform/resolvers@npm:3.3.2"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 538c86a744c71735a5c3be7b450c704111fe53a52634463ed3c801681d57504d3717ab5f7bd20e99ee87d81a9da0aca640af0837eb807486d9d5c927269a9b37
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.10":
   version: 0.11.11
   resolution: "@humanwhocodes/config-array@npm:0.11.11"
@@ -20983,6 +20992,7 @@ __metadata:
   resolution: "web@workspace:web"
   dependencies:
     "@clerk/clerk-react": ^4
+    "@hookform/resolvers": ^3.3.2
     "@redwoodjs/auth-clerk-web": 6.3.2
     "@redwoodjs/forms": 6.3.2
     "@redwoodjs/router": 6.3.2
@@ -20998,6 +21008,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     tailwindcss: ^3.3.3
+    zod: ^3.22.4
   languageName: unknown
   linkType: soft
 
@@ -21714,5 +21725,12 @@ __metadata:
     compress-commons: ^4.1.2
     readable-stream: ^3.6.0
   checksum: 38f91ca116a38561cf184c29e035e9453b12c30eaf574e0993107a4a5331882b58c9a7f7b97f63910664028089fbde3296d0b3682d1ccb2ad96929e68f1b2b89
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.22.4":
+  version: 3.22.4
+  resolution: "zod@npm:3.22.4"
+  checksum: 7578ab283dac0eee66a0ad0fc4a7f28c43e6745aadb3a529f59a4b851aa10872b3890398b3160f257f4b6817b4ce643debdda4fb21a2c040adda7862cab0a587
   languageName: node
   linkType: hard

@@ -10,17 +10,18 @@ export const schema = gql`
   }
 
   type Query {
-    leagues: [League!] @requireAuth
+    leagues: [League!] @requireAuth(roles: ["golfer"])
   }
 
   type Mutation {
-    createLeague(input: CreateLeagueInput!): League! @requireAuth
-    createSeason(input: CreateSeasonInput!): Season! @requireAuth
+    createLeague(input: CreateLeagueInput!): League!
+      @requireAuth(roles: ["golfer"])
+    createSeason(leagueId: String!, input: CreateSeasonInput!): Season!
+      @requireAuth(roles: ["golfer"])
   }
 
   input CreateSeasonInput {
     name: String!
-    leagueId: String!
     sessions: [CreateSessionInput!]!
   }
 

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^4",
+    "@hookform/resolvers": "^3.3.2",
     "@redwoodjs/auth-clerk-web": "6.3.2",
     "@redwoodjs/forms": "6.3.2",
     "@redwoodjs/router": "6.3.2",
@@ -19,7 +20,8 @@
     "daisyui": "^3.9.3",
     "prop-types": "15.8.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@redwoodjs/vite": "6.3.2",

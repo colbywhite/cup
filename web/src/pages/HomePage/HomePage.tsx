@@ -1,39 +1,24 @@
-import { useRef } from 'react'
-
+import { navigate, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
-import CreateGolferDialog from 'src/components/CreateGolferDialog/CreateGolferDialog'
 
 const HomePage = () => {
-  const { currentUser, reauthenticate } = useAuth()
-  const dialog = useRef<HTMLDialogElement | null>(null)
-  if (!currentUser) {
-    return null
+  const { currentUser, logIn, isAuthenticated } = useAuth()
+  if (!isAuthenticated || !currentUser) {
+    return (
+      <main className="flex flex-col items-center justify-center gap-4 text-center">
+        <MetaTags title="Home" description="Home page" />
+        <h1 className="text-2xl font-bold">Log in to start competing</h1>
+        <button className="btn btn-primary" onClick={() => logIn()}>
+          Log in
+        </button>
+      </main>
+    )
   }
   const isGolfer = currentUser.roles.includes('golfer')
-  return (
-    <>
-      <MetaTags title="Home" description="Home page" />
-      <h1 className="my-4 text-2xl font-bold">Hello {currentUser.name}</h1>
-      <section>
-        {isGolfer ? (
-          <p>Join a tour</p>
-        ) : (
-          <>
-            <p>Connect your GHIN in order to participate.</p>
-            <button
-              className="btn btn-primary"
-              onClick={() => dialog.current?.showModal()}
-            >
-              Connect
-            </button>
-            <CreateGolferDialog ref={dialog} onCompleted={reauthenticate} />
-          </>
-        )}
-      </section>
-    </>
-  )
+  navigate(isGolfer ? routes.leagues() : routes.connect())
+  return null
 }
 
 export default HomePage
